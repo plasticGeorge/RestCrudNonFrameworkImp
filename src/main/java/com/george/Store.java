@@ -18,11 +18,29 @@ public class Store {
     }
 
     public boolean addPerson(Person newPerson){ //POST
-        return store.put(newPerson.getId(), newPerson) == null;
+        if(store.containsValue(newPerson))
+            return false;
+        store.put(newPerson.getId(), newPerson);
+        return true;
     }
 
-    public Person getPerson(int id){ //GET
+    public Person getPersonById(int id){ //GET
         return store.get(id);
+    }
+
+    public boolean updatePerson(int id, String name, Sex sex, JobTitle jobTitle){
+        Person personToChange = store.get(id);
+        if (personToChange != null) {
+            if (name != null)
+                personToChange.setName(name);
+            if (sex != null)
+                personToChange.setSex(sex);
+            if (jobTitle != null)
+                personToChange.setJobTitle(jobTitle);
+            return true;
+        }
+        else
+            return false;
     }
 
     public boolean deletePerson(int id){ //DELETE
